@@ -1,0 +1,5 @@
+extern NSString * const kZORNCoreDataStackErrorDomain;
+
+static const NSInteger kZORNCoreDataStackStackAlreadyBuiltErrorCode = 1001;
+extern NSString * const kZORNCoreDataStackStackAlreadyBuiltErrorLocalizedDescription;
+extern NSString * const kZORNCoreDataStackStackAlreadyBuiltErrorRecoverySuggestion;
