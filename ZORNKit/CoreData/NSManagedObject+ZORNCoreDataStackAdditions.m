@@ -66,4 +66,17 @@
     }
 }
 
++ (NSUInteger)td_countOfEntitiesInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+{
+    NSError *error = nil;
+    NSFetchRequest *fetchRequest = [self zorncds_fetchRequestForEntityInManagedObjectContext:managedObjectContext];
+    NSUInteger answer = [managedObjectContext countForFetchRequest:fetchRequest error:&error];
+    if (NSNotFound == answer) {
+        [ZORNCoreDataStack handleErrors:error];
+        return NSNotFound;
+    } else {
+        return answer;
+    }
+}
+
 @end

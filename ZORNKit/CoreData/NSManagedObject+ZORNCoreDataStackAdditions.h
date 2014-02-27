@@ -17,5 +17,6 @@
 + (instancetype)zorncds_findOnlyInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 + (instancetype)zorncds_findOnlyInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext withPredicate:(NSPredicate *)predicate;
 + (NSArray *)zorncds_executeFetchRequest:(NSFetchRequest *)fetchRequest inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
++ (NSUInteger)td_countOfEntitiesInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 @end

@@ -1,4 +1,5 @@
 #import "ZORNMappingService.h"
+#import "ZORNCoreDataStack.h"
 
 #define SAVE_JSON YES
 
@@ -69,10 +70,14 @@
             id collectionValue = [collectionObject valueForKey:collectionAttribute];
             
             // check to see if this value should be ran through a formatter
-            NSDateFormatter *formatter = [self.objectClass dateFormatterForAttributeMappingOfKey:collectionAttribute];
-            if (formatter) {
-                collectionValue = [formatter dateFromString:collectionValue];
-            }
+//            if ([self.objectClass respondsToSelector:@selector(dateFormatterForAttributeMappingOfKey:)]) {
+//                NSDateFormatter *formatter = [self.objectClass dateFormatterForAttributeMappingOfKey:collectionAttribute];
+//                if (formatter) {
+//                    collectionValue = [formatter dateFromString:collectionValue];
+//                }
+//            }
+            
+            
             
             // set non null values
             if (![collectionValue isKindOfClass:[NSNull class]]) {

@@ -7,6 +7,7 @@
 //
 
 #import "NSObject+ZORNCoreDataStackAdditions.h"
+#import <CoreData/CoreData.h>
 
 @implementation NSObject (ZORNCoreDataStackAdditions)
 
