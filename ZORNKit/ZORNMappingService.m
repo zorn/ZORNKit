@@ -16,19 +16,13 @@
 
 @implementation ZORNMappingService
 
-- (void)mapDictionaryCollection:(NSArray *)dictionaryCollection toObjectInstanseOfClass:(Class)objectClass inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext updateObjects:(BOOL)updateObjects usingMapping:(NSDictionary *)mappingDictionary uniqueIdentifierAttribute:(NSString *)uniqueIdentifierAttribute completionHandler:(ZORNMappingServiceMapObjectsCompletionHandler)completionHandler
-{
-    [self mapDictionaryCollection:dictionaryCollection
-          toObjectInstanseOfClass:objectClass
-           inManagedObjectContext:managedObjectContext
-                    updateObjects:updateObjects
-                     usingMapping:mappingDictionary
-        uniqueIdentifierAttribute:uniqueIdentifierAttribute
-               customMappingBlock:nil
-                completionHandler:completionHandler];
-}
-
-- (void)mapDictionaryCollection:(NSArray *)dictionaryCollection toObjectInstanseOfClass:(Class)objectClass inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext updateObjects:(BOOL)updateObjects usingMapping:(NSDictionary *)mappingDictionary uniqueIdentifierAttribute:(NSString *)uniqueIdentifierAttribute customMappingBlock:(ZORNMappingServiceMapObjectsCustomMappingBlock)customMappingBlock completionHandler:(ZORNMappingServiceMapObjectsCompletionHandler)completionHandler
+- (NSArray *)mapDictionaryCollection:(NSArray *)dictionaryCollection
+        toObjectInstanseOfClass:(Class)objectClass
+         inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+                  updateObjects:(BOOL)updateObjects usingMapping:(NSDictionary *)mappingDictionary
+      uniqueIdentifierAttribute:(NSString *)uniqueIdentifierAttribute
+             customMappingBlock:(ZORNMappingServiceMapObjectsCustomMappingBlock)customMappingBlock
+                          error:(NSError **)returnError
 {
     self.dictionaryCollection = dictionaryCollection;
     self.objectClass = objectClass;
@@ -40,9 +34,8 @@
     NSError *coreDataErrors = nil;
     coreDataErrors = [self validateCoreDataSystems];
     if (coreDataErrors) {
-        if (completionHandler) {
-            completionHandler(nil, coreDataErrors);
-        }
+        *returnError = coreDataErrors;
+        return nil;
     }
     
     NSMutableArray *importedObjects = [[NSMutableArray alloc] init];
@@ -70,14 +63,12 @@
             id collectionValue = [collectionObject valueForKey:collectionAttribute];
             
             // check to see if this value should be ran through a formatter
-//            if ([self.objectClass respondsToSelector:@selector(dateFormatterForAttributeMappingOfKey:)]) {
-//                NSDateFormatter *formatter = [self.objectClass dateFormatterForAttributeMappingOfKey:collectionAttribute];
-//                if (formatter) {
-//                    collectionValue = [formatter dateFromString:collectionValue];
-//                }
-//            }
-            
-            
+            if ([self.objectClass respondsToSelector:@selector(zorn_mappingDateFormatterRelativeToAttributeOfKey:)]) {
+                NSDateFormatter *formatter = [self.objectClass zorn_mappingDateFormatterRelativeToAttributeOfKey:collectionAttribute];
+                if (formatter) {
+                    collectionValue = [formatter dateFromString:collectionValue];
+                }
+            }
             
             // set non null values
             if (![collectionValue isKindOfClass:[NSNull class]]) {
@@ -98,13 +89,11 @@
     if ([self.objectClass zorncds_isCoreDataInstanceClass]) {
         NSError *error = nil;
         if (![self.managedObjectContext save:&error]) {
-            NSLog(@"Could not save context, had error: %@", error);
+            DDLogError(@"Could not save context, had error: %@", error);
         }
     }
     
-    if (completionHandler) {
-        completionHandler([NSArray arrayWithArray:importedObjects], nil);
-    }
+    return [NSArray arrayWithArray:importedObjects];
 }
 
 - (id)newOrFoundObjectForUniqueIdentifierValue:(id)uniqueID
