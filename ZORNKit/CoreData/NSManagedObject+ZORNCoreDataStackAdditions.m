@@ -54,6 +54,14 @@
     }
 }
 
++ (NSArray *)zorncds_findAllInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+{
+    NSFetchRequest *entityFR = [self zorncds_fetchRequestForEntityInManagedObjectContext:managedObjectContext];
+    NSArray *results = [self zorncds_executeFetchRequest:entityFR inManagedObjectContext:managedObjectContext];
+    return results;
+}
+
+
 + (NSArray *)zorncds_executeFetchRequest:(NSFetchRequest *)fetchRequest inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
     NSError *error = nil;
