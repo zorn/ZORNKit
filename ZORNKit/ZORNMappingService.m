@@ -47,20 +47,20 @@
         NSArray *allKeys = [self.mappingDictionary allKeys];
         NSString *key = nil;
         for (NSString *someKey in allKeys) {
-            if ([self.mappingDictionary valueForKey:someKey] == self.uniqueIdentifierAttribute) {
+            if ([self.mappingDictionary objectForKey:someKey] == self.uniqueIdentifierAttribute) {
                 key = someKey;
                 break;
             }
         }
         
-        id object = [self newOrFoundObjectForUniqueIdentifierValue:[collectionObject valueForKey:key]];
+        id object = [self newOrFoundObjectForUniqueIdentifierValue:[collectionObject objectForKey:key]];
         
         // for each mapping attribute copy over the value from the collectionInstance to the objectInstance
         for (NSString *collectionAttribute in self.mappingDictionary) {
-            NSString *objectAttribute = [self.mappingDictionary valueForKey:collectionAttribute];
+            NSString *objectAttribute = [self.mappingDictionary objectForKey:collectionAttribute];
             
             // get raw value
-            id collectionValue = [collectionObject valueForKey:collectionAttribute];
+            id collectionValue = [collectionObject objectForKey:collectionAttribute];
             
             // check to see if this value should be ran through a formatter
             if ([self.objectClass respondsToSelector:@selector(zorn_mappingDateFormatterRelativeToAttributeOfKey:)]) {
@@ -71,7 +71,7 @@
             }
             
             // set non null values
-            if (![collectionValue isKindOfClass:[NSNull class]]) {
+            if (collectionValue && ![collectionValue isKindOfClass:[NSNull class]]) {
                 [object setValue:collectionValue forKey:objectAttribute];
             }
             
