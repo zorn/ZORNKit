@@ -18,6 +18,10 @@
 + (instancetype)zorncds_findOnlyInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext withPredicate:(NSPredicate *)predicate;
 + (NSArray *)zorncds_findAllInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 + (NSArray *)zorncds_executeFetchRequest:(NSFetchRequest *)fetchRequest inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-+ (NSUInteger)td_countOfEntitiesInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
++ (NSUInteger)zorncds_countOfEntitiesInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+
+#pragma mark - UIFetchResultController Helpers
+
+- (NSString *)zorncds_uppercaseFirstLetterOfName;
 
 @end

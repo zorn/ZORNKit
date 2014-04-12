@@ -160,7 +160,7 @@
     NSAssert(NO, @"IMPLIMENTED BY SUBCLASS");
 }
 
-#pragma mark - TableView DataSource
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [[[self fetchedResultsControllerForTableView:tableView] sections] count];

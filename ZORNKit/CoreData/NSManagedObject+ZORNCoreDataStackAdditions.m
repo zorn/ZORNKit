@@ -74,7 +74,7 @@
     }
 }
 
-+ (NSUInteger)td_countOfEntitiesInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
++ (NSUInteger)zorncds_countOfEntitiesInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
     NSError *error = nil;
     NSFetchRequest *fetchRequest = [self zorncds_fetchRequestForEntityInManagedObjectContext:managedObjectContext];
@@ -85,6 +85,21 @@
     } else {
         return answer;
     }
+}
+
+- (NSString *)zorncds_uppercaseFirstLetterOfName
+{
+    [self willAccessValueForKey:@"zorncds_uppercaseFirstLetterOfName"];
+    NSString *aString = [[self valueForKey:@"name"] uppercaseString];
+    
+    // support UTF-16:
+    NSString *stringToReturn = [aString substringWithRange:[aString rangeOfComposedCharacterSequenceAtIndex:0]];
+    
+    // OR no UTF-16 support:
+    //NSString *stringToReturn = [aString substringToIndex:1];
+    
+    [self didAccessValueForKey:@"zorncds_uppercaseFirstLetterOfName"];
+    return stringToReturn;
 }
 
 @end
