@@ -6,7 +6,7 @@
 {
     NSError *error = nil;
     if (![self save:&error]) {
-        NSLog(@"Could not save managed object context %@, had error: %@", self, error);
+        DDLogError(@"Could not save managed object context %@, had error: %@", self, error);
         abort();
     }
 }

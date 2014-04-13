@@ -100,22 +100,22 @@ NSString * const kZORNCoreDataStackStackIsComingDown = @"kZORNCoreDataStackStack
             {
                 if ([e respondsToSelector:@selector(userInfo)])
                 {
-                    NSLog(@"Error Details: %@", [e userInfo]);
+                    DDLogError(@"Error Details: %@", [e userInfo]);
                 }
                 else
                 {
-                    NSLog(@"Error Details: %@", e);
+                    DDLogError(@"Error Details: %@", e);
                 }
             }
         }
         else
         {
-            NSLog(@"Error: %@", detailedError);
+            DDLogError(@"Error: %@", detailedError);
         }
     }
-    NSLog(@"Error Message: %@", [error localizedDescription]);
-    NSLog(@"Error Domain: %@", [error domain]);
-    NSLog(@"Recovery Suggestion: %@", [error localizedRecoverySuggestion]);
+    DDLogError(@"Error Message: %@", [error localizedDescription]);
+    DDLogError(@"Error Domain: %@", [error domain]);
+    DDLogError(@"Recovery Suggestion: %@", [error localizedRecoverySuggestion]);
 }
 
 + (void)handleErrors:(NSError *)error

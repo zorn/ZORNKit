@@ -48,7 +48,7 @@
         return [results lastObject];
     } else {
         if ([results count] > 1) {
-            NSLog(@"Expected results to be 1 or 0 but was greater that 1: %@", results);
+            DDLogError(@"Expected results to be 1 or 0 but was greater that 1: %@", results);
         }
         return nil;
     }
