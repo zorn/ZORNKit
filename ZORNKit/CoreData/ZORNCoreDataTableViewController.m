@@ -22,15 +22,6 @@
 - (void)loadView
 {
     [super loadView];
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 44.0)];
-    searchBar.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-    searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.tableView.tableHeaderView = searchBar;
-    
-    self.mySearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
-    self.mySearchDisplayController.delegate = self;
-    self.mySearchDisplayController.searchResultsDataSource = self;
-    self.mySearchDisplayController.searchResultsDelegate = self;
     
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter addObserver:self selector:@selector(handleZORNCoreDataStackStackIsComingDownNotification:) name:kZORNCoreDataStackStackIsComingDown object:nil];
@@ -50,15 +41,33 @@
     
     [[self tableView] setSectionIndexBackgroundColor:[UIColor clearColor]];
     
-	// restore search settings if they were saved in didReceiveMemoryWarning.
-    if (self.savedSearchTerm)
-    {
-        [self.searchDisplayController setActive:self.searchWasActive];
-        [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:self.savedScopeButtonIndex];
-        [self.searchDisplayController.searchBar setText:self.savedSearchTerm];
+    if ([self searchPredicateForSearchString:@"testing 1, 2, 3"]) {
+        
+        [self setupSearchBar];
+        
+        // restore search settings if they were saved in didReceiveMemoryWarning.
+        if (self.savedSearchTerm)
+        {
+            [self.searchDisplayController setActive:self.searchWasActive];
+            [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:self.savedScopeButtonIndex];
+            [self.searchDisplayController.searchBar setText:self.savedSearchTerm];
+            
+            self.savedSearchTerm = nil;
+        }
+    }	
+}
 
-        self.savedSearchTerm = nil;
-    }
+- (void)setupSearchBar
+{
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 44.0)];
+    searchBar.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+    searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.tableView.tableHeaderView = searchBar;
+    
+    self.mySearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+    self.mySearchDisplayController.delegate = self;
+    self.mySearchDisplayController.searchResultsDataSource = self;
+    self.mySearchDisplayController.searchResultsDelegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -143,7 +152,6 @@
 
 - (NSPredicate *)searchPredicateForSearchString:(NSString *)searchString
 {
-    NSAssert(NO, @"IMPLIMENTED BY SUBCLASS");
     return nil;
 }
 
