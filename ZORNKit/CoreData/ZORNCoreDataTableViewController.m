@@ -47,6 +47,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[self tableView] setSectionIndexBackgroundColor:[UIColor clearColor]];
+    
 	// restore search settings if they were saved in didReceiveMemoryWarning.
     if (self.savedSearchTerm)
     {
